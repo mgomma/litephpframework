@@ -1,0 +1,48 @@
+<div>
+<form method='<?php echo $data['method']; ?>' action='<?php echo $data['action']; ?>'>
+	<h2> Register Form</h2>
+<?php
+
+foreach ($data['elements'] as $key => $value) {
+
+?>
+<div>
+  <?php if(isset($value['label'])){ ?>
+  	<label><?php echo $value['label'];?></label>
+  <?php }?>
+
+  <input type="<?php echo $value['type'];?>" 
+  name="<?php echo $key;?>" 
+  <?php if(isset($value['attributes'])){ 
+
+foreach ($value['attributes'] as $attk => $attv) { 
+ echo $attk; ?>="<?php echo $attv;?>"
+<?php }
+  }
+  ?>
+  value="<?php if(isset($value['value'])){ echo $value['value'];}?>" 
+  >
+
+ <?php 
+ if(isset($value['errors']) && !empty($value['errors'])){ 
+
+ 	?>
+
+  <div class="errors">
+  <?php foreach($value['errors'] as $k => $error){
+
+   ?>
+
+  	<p class='red'><?php echo $error; ?></p>
+
+  <?php }?>
+
+  </div>
+<?php } ?>
+</div>
+<?php } ?>
+
+<input type="submit" value="Submit">
+
+</form>
+</div>

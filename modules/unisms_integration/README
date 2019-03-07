@@ -1,0 +1,17 @@
+Response structure
+
+{
+success: "true",
+message: "",
+errorCode: "ER-00",
+data: {
+MessageID: 2603871642,
+Status: "Queued",
+NumberOfUnits: 1,
+Cost: "0.01600",
+Balance: "BALANCE",
+Recipient: "PHONE NUMBER",
+TimeCreated: "2019-03-05 12:24:36",
+CurrencyCode: "USD"
+}
+}

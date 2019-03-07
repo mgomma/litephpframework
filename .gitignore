@@ -1,0 +1,3 @@
+etc/config.php
+etc/env.php
+modules/*/etc/config.php
