@@ -52,7 +52,7 @@ class TestUserRegister extends TestBase{
 
   public function assert($field, $value){
   	if($this->model->hasErrors()){
-  	  echo 'test: <b>'.$field.'</b>, against: <b>'.$value.'</b> failed <br/>';
+  	  echo '<p style="color:red">test: <b>'.$field.'</b>, against: <b>'.$value.'</b> failed </p>';
 
   	  ;
   	  foreach (array_filter($this->model->getModelState()) as $key => $value) {
@@ -63,7 +63,7 @@ class TestUserRegister extends TestBase{
   	  }
   	}else{
 
-  	  echo 'test: <b>'.$field.'</b>, against: <b>'.$value.'</b> success <br/> <br/>';
+  	  echo '<p style="color:green">test: '.$field.'</b>, against: <b>'.$value.'</b> passed </p> <br/>';
   	}
   	echo '<br/>';
   }
