@@ -43,7 +43,7 @@ class UserRegisterModel extends BaseModel{
 	}
 
 	public function hasErrors(){
-	  return (bool) count($this->state);
+	  return (bool) count(array_filter($this->state));
 	}
 
 	public function sendCode($mobile){

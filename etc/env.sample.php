@@ -5,5 +5,5 @@ $dbConfig = [
   'database' => '',
   'user' => '',
   'password' => '',
-  'driver' => '';
+  'driver' => '',
 ];

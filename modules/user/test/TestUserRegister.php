@@ -19,7 +19,7 @@ class TestUserRegister extends TestBase{
   public function runTest(){
   	$fields = $this->model->getFields();
 
-  	echo 'Start test user register <br/><br/>';
+  	echo '<p style="color:blue"> Start test user register </p>';
 
   	foreach ($fields as $field) {
   	  $otherCases = $this->testCasesArr;
@@ -48,7 +48,36 @@ class TestUserRegister extends TestBase{
   	    $this->assert($field, $v);
   	  }
   	}
+
+  	$this->testCodeLength();
   }
+
+  public function  testCodeLength(){
+      $mobile = '12345678';
+      $this->model->GenerateSmsCode($mobile);
+
+      echo '<p style="color:blue"> Start testing generate sms code </p>';
+
+      if(isset($_SESSION['uniSmsCode']) && strlen($_SESSION['uniSmsCode']) == 4){
+          echo '<p style="color:green"> sms code length 4 digits passed </p>';
+      }else{
+          echo '<p style="color:red"> sms code length failed </p>';
+      }
+
+      if(isset($_SESSION['uniSmsSendTime'])){
+          echo '<p style="color:green"> uniSmsSendTime test passed </p>';
+      }else{
+          echo '<p style="color:red"> uniSmsSendTime test failed </p>';
+      }
+
+
+      if(isset($_SESSION['uniSmsSendCounter'])){
+          echo '<p style="color:green">uniSmsSendCounter test passed </p>';
+      }else{
+          echo '<p style="color:red"> uniSmsSendCounter test failed </p>';
+      }
+  }
+
 
   public function assert($field, $value){
   	if($this->model->hasErrors()){

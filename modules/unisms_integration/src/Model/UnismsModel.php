@@ -9,7 +9,7 @@ class UnismsModel extends BaseModel{
 	private $smsData;
 
 	function __Construct(){
-	  $this->smsData = require dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'config.php';
+	  $this->smsData = $GLOBALS['env']['unisms'];
 	}
 
 
@@ -37,9 +37,8 @@ class UnismsModel extends BaseModel{
 	  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	  $result = curl_exec($curl);
 
-	  return $result;
-
 	  curl_close($curl);
+	  return $result;
 	}
 
 }

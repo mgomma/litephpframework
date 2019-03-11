@@ -13,7 +13,7 @@ class UserRegisterValidate extends BaseValidate{
 
 	public function validateName($value){
 	  $errors = [];
-	  if(!preg_match("/^[a-zA-Z]+$/", $value)){
+	  if(!preg_match("/([a-z|A-Z])*/", $value)){
 
 	  	$errors []= 'Alphabetical only';
 	  }
@@ -29,29 +29,19 @@ class UserRegisterValidate extends BaseValidate{
 	  $errors = [];
 
 	  $length = strlen($value);
-	  $atPos = strrpos($value, '@');
-	  $dotPos = strrpos($value, '.');
-
-	  $dotCom = substr($value, $dotPos);
-	  $domain = substr($value, $atPos+1, $dotPos - $atPos-1);
-	  $start = substr($value, 0, $atPos);
-	  //print_r([$dotCom, $domain, $start]); exit;
-	  if($dotCom != '.com'){
-
-	  	$errors []= 'Only .com domains allowed';
-	  }
-	  if(!preg_match('/(a-z)/', $domain)){
-
-	  	$errors []= 'Only lower case letters domains allowed';
-	  }
-	  if(!preg_match('/(a-z|A-Z|1-9|.-_)/', $start)){
-
-	  	$errors []= 'Only lower case letters domains allowed';
-	  }
-	  $length = strlen($value);
 	  if($length > 20 || $length < 7){
 
 	  	$errors []= 'Number of characters allowed 7-20';
+	  }
+
+	  preg_match("/([a-z|A-Z|1-9|.|\-|_])*@[a-z]*.com/", $value,$matches);
+
+	  if($length != strlen(reset($matches))){
+	    $errors []= 'Not valid email';
+	  }
+
+	  if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+	    $errors []= 'Not valid email';
 	  }
 	  return $errors;
 	}
@@ -63,7 +53,7 @@ class UserRegisterValidate extends BaseValidate{
 
 	  	$errors []= 'Must be 12 number only';
 	  }
-	  if(!preg_match("/9627(0-9)/", $value)){
+	  if(!preg_match("/9627[0-9]{8}/", $value)){
 	    $errors []= 'Not valid jordan mobile number';	
 	  }
 	  return $errors;

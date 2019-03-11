@@ -1,0 +1,16 @@
+<?php
+
+namespace App\core\test;
+
+use  App\core\test\TestBase;
+
+class CoreBase extends TestBase {
+
+    public function assert($field, $value){
+
+    }
+
+    public function runTest(){
+        
+    }
+}
