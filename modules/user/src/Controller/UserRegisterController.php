@@ -44,13 +44,32 @@ class UserRegisterController extends BaseFrontController{
 	  	}
 
 	  	$this->returnRegisterForm($formState);
-	  }
+	  }else if(isset($_SESSION['mobile_number_validated']) && _SESSION['mobile_number_validated']){
+	      $this->submitUser($arr);
+      }else{
+
+      }
 	}
+
+	private function submitUser(&$arr){
+	    if($this->model->saveUser($arr)){
+
+	        $data['message']['success'] = 'You have registered Successfully !!';
+            return $this->view('registerResult.phtml', $data);
+
+        }else{
+
+            $data['message']['error'] = 'An error occured  .please try again';
+            return $this->view('registerResult.phtml', $data);
+        }
+    }
 
 	private function returnRegisterForm($formState){
 	  $form = ['action' => '/user/register'];
 
 	  $data = $this->form->buildForm($form, $formState);
+      $data['style'] []= ['url' => '/modules/user/assets/css/userregisterstyle.css'];
+      $data['script'] []= ['url' => '/modules/user/assets/js/userregisterscript.js'];
 
 	  return $this->view('registerForm.phtml', $data);
 	}

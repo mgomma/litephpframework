@@ -1,48 +1,48 @@
-<div>
-<form method='<?php echo $data['method']; ?>' action='<?php echo $data['action']; ?>'>
-	<h2> Register Form</h2>
-<?php
+<div class="container float-left">
+    <div class="row">
 
-foreach ($data['elements'] as $key => $value) {
+        <div class="col-sm-9">
+            <form class="form-horizontal" method='<?php echo $data['method']; ?>' action='<?php echo $data['action']; ?>'>
 
-?>
-<div>
-  <?php if(isset($value['label'])){ ?>
-  	<label><?php echo $value['label'];?></label>
-  <?php }?>
+                <h2>Registration page.</h2>
+                <?php foreach ($data['elements'] as $key => $value) { ?>
 
-  <input type="<?php echo $value['type'];?>" 
-  name="<?php echo $key;?>" 
-  <?php if(isset($value['attributes'])){ 
+                    <div class="form-group <?php echo str_replace('_', '-', $key); ?>">
+                        <?php if(isset($value['label'])){ ?>
 
-foreach ($value['attributes'] as $attk => $attv) { 
- echo $attk; ?>="<?php echo $attv;?>"
-<?php }
-  }
-  ?>
-  value="<?php if(isset($value['value'])){ echo $value['value'];}?>" 
-  >
+                            <label class="control-label col-sm-2"><?php echo $value['label'];?></label>
+                        <?php }?>
 
- <?php 
- if(isset($value['errors']) && !empty($value['errors'])){ 
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="<?php echo $value['type'];?>"
+                                   name="<?php echo $key;?>"
 
- 	?>
+                            <?php if(isset($value['attributes'])){
+                                foreach ($value['attributes'] as $attk => $attv) {
 
-  <div class="errors">
-  <?php foreach($value['errors'] as $k => $error){
+                                    echo $attk; ?>="<?php echo $attv;?>"
+                                <?php } } ?>
 
-   ?>
+                            value="<?php if(isset($value['value'])){ echo $value['value'];}?>">
+                        </div>
 
-  	<p class='red'><?php echo $error; ?></p>
+                        <?php if(isset($value['errors']) && !empty($value['errors'])){ ?>
+                        <div class="alert alert-danger">
 
-  <?php }?>
+                            <?php foreach($value['errors'] as $k => $error){ ?>
+                                <p class='red'><?php echo $error; ?></p>
 
-  </div>
-<?php } ?>
-</div>
-<?php } ?>
+                            <?php }?>
+                        </div>
 
-<input type="submit" value="Submit">
+                        <?php } ?>
+                    </div>
 
-</form>
+                <?php } ?>
+                <input class="btn btn-default" type="submit" value="Register">
+
+            </form>
+        </div>
+
+    </div>
 </div>

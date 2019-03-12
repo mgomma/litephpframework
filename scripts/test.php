@@ -7,14 +7,6 @@ $module = trim($_REQUEST['module']);
 
 define('APP_DIR', dirname(dirname(__FILE__)));//document root dir
 
-$envFilePath =  APP_DIR.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'env.php';
-if(file_exists($envFilePath)){
-    include $envFilePath;
-}else{
-    exit('Set env file to start testing');
-}
-
-
 require APP_DIR.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'bootstrap.php';
 
 $kernal = new App\Core\Kernal();

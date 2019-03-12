@@ -14,10 +14,9 @@ class TestUnismsIntegration extends TestBase{
   }
 
   public function runTest(){
-
     echo '<p style="color:blue"> Start test user register </p>';
-    $this->testConfig();
 
+    $this->testConfig();
     $this->testUnismsIntegration();
   }
 
@@ -26,10 +25,11 @@ class TestUnismsIntegration extends TestBase{
       $result = $this->model->sendCode(['Recipient' => 'XXXXXX', 'code' => '1234']);
 
       $resultObj = json_decode($result);
-
       if(isset($resultObj->success)){
+
           echo '<p style="color:green"> test Unisms integration connection passed </p>';
       }else{
+
           echo '<p style="color:red"> test Unisms integration connection failed </p>';
       }
 
@@ -37,8 +37,10 @@ class TestUnismsIntegration extends TestBase{
 
   public function testConfig(){
       $uniSmsEnv = $GLOBALS['env']['unisms'];
+
       if(isset($uniSmsEnv['AppSid']) && isset($uniSmsEnv['url'])){
           echo '<p style="color:green"> Uni sms integration data passed test </p>';
+
       }else{
           echo '<p style="color:red"> Uni sms integration data not exist failed  </p>';
       }

@@ -17,7 +17,7 @@ class RegisterForm extends BaseForm{
 	  	'elements' => [  
 	  	  'first_name' => [
 	  	  	'type' => 'text',
-	  	    'label' => 'First name',
+	  	    'label' => 'First Name',
   	    	'description' => '', 
 	  	    'attributes' => [
 	  	    	'required' => 'requried',
@@ -27,7 +27,7 @@ class RegisterForm extends BaseForm{
 	  	  ],
 	  	  'last_name' => [
 	  	  	'type' => 'text',
-	  	  	 'label' => 'Last name',
+	  	  	 'label' => 'Last Name',
 	  	  	 'description' => '',
 	  	  	 'attributes' => [
 	  	  	 	'required' => 'requried',
@@ -37,7 +37,7 @@ class RegisterForm extends BaseForm{
 	  	  ],
 	  	  'email' => [
 	  	  	'type' => 'email', 
-	  	  	'label' => 'Email',
+	  	  	'label' => 'Email Name',
 	  	  	'description' => '',
 	  	  	'attributes' => [
 	  	  		'required' => 'requried',
@@ -46,8 +46,8 @@ class RegisterForm extends BaseForm{
 	  	  	]
 	  	  ],
 	  	  'phone_number' => [
-	  	  	'type' => 'phome',
-	  	  	 'label' => 'Phone number',
+	  	  	'type' => 'phone',
+	  	  	 'label' => 'Phone Number',
 	  	  	 'description' => '',
 	  	  	 'attributes' => [
 	  	  	   	'required' => 'requried',
@@ -55,6 +55,23 @@ class RegisterForm extends BaseForm{
 	  	  	   	'max' => '12',
 	  	  	  ]
 	  	  	],
+          'sms_button' => [
+                'type' => 'button',
+                'value' => 'Send SMS to verify',
+                'attributes' => [
+                  'style' => 'display: none;',
+                ],
+            ],
+          'verification_code' => [
+                'type' => 'text',
+                'label' => 'Verification Code',
+                'description' => '',
+                'attributes' => [
+                    'style' => 'display: none;',
+                    'min' => '4',
+                    'max' => '4',
+                ]
+            ],
 	    ],
 	  ];
 
