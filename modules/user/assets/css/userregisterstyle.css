@@ -1,3 +1,11 @@
 .verification-code{
     display: none;
 }
+
+.message.success{
+    color: green;
+}
+
+.message.error{
+    color: red;
+}

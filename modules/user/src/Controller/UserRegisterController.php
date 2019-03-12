@@ -15,6 +15,9 @@ class UserRegisterController extends BaseFrontController{
 	  $this->model = new UserRegisterModel();
       $this->form = new RegisterForm();
 
+      $this->data['style'] []= ['url' => '/modules/user/assets/css/userregisterstyle.css'];
+      $this->data['script'] []= ['url' => '/modules/user/assets/js/userregisterscript.js'];
+
 	}
 
 	public function index(){
@@ -29,10 +32,12 @@ class UserRegisterController extends BaseFrontController{
 
 	private function registerFormSubmit(){
 	  $post = $this->request->post();
+        $this->submitUser($arr);
+        return;
 	  $this->model->validate($post);
 
 	  $state = $this->model->getModelState();
-	  if($this->model->hasErrors()){
+	  if($this->model->hasErrors() || (!isset($_SESSION['mobile_number_validated']) && !$_SESSION['mobile_number_validated'])){
 	  	$formState = [];
 
 	  	foreach ($post as $key => $value) {
@@ -44,33 +49,28 @@ class UserRegisterController extends BaseFrontController{
 	  	}
 
 	  	$this->returnRegisterForm($formState);
-	  }else if(isset($_SESSION['mobile_number_validated']) && _SESSION['mobile_number_validated']){
+	  }else if(isset($_SESSION['mobile_number_validated']) && $_SESSION['mobile_number_validated']){
 	      $this->submitUser($arr);
-      }else{
-
       }
 	}
 
 	private function submitUser(&$arr){
 	    if($this->model->saveUser($arr)){
 
-	        $data['message']['success'] = 'You have registered Successfully !!';
-            return $this->view('registerResult.phtml', $data);
+	        $this->data['register_result']['message'] = 'You have registered Successfully !!';
+            $this->data['register_result']['type'] = 'success';
 
         }else{
-
-            $data['message']['error'] = 'An error occured  .please try again';
-            return $this->view('registerResult.phtml', $data);
+            $this->data['register_result']['message'] = 'An error occured  .please try again';
+            $this->data['register_result']['type'] = 'error';
         }
+        return $this->view('registerForm.phtml');
     }
 
 	private function returnRegisterForm($formState){
 	  $form = ['action' => '/user/register'];
 
-	  $data = $this->form->buildForm($form, $formState);
-      $data['style'] []= ['url' => '/modules/user/assets/css/userregisterstyle.css'];
-      $data['script'] []= ['url' => '/modules/user/assets/js/userregisterscript.js'];
-
-	  return $this->view('registerForm.phtml', $data);
+	  $this->data['form'] = $this->form->buildForm($form, $formState);
+	  return $this->view('registerForm.phtml');
 	}
 }

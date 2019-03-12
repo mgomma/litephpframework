@@ -3,7 +3,7 @@
 include 'header.php';
 
 if(!file_exists($content)){
-    $data['messages']['error'] = 'The template file not exist !!';
+    $data['messages']['error'][] = 'The template file not exist !!';
 }
 
 if(isset($data['messages'])){
