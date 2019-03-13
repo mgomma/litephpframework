@@ -16,10 +16,12 @@ class UserRegisterModel extends BaseModel{
 	const fields = ['first_name', 'last_name', 'email', 'phone_number'];
 
 	function __Construct(){
+	  parent::__Construct();
+
 	  $this->smsModel = new UnismsModel();
 	  $this->userRegisterValidate = new UserRegisterValidate();
-	  $this->state = [];
 
+	  $this->state = [];
 	}
 
 	public function getFields(){
@@ -27,7 +29,7 @@ class UserRegisterModel extends BaseModel{
 	}
 
 	public function saveUser(&$arr){
-		$this->driver->insert(SELF::table, array_intersect($arr, SELF::fields));
+	  $this->db->insert(SELF::table, array_intersect($arr, SELF::fields));
 	}
 
 	public function validate(&$arr){
@@ -66,5 +68,4 @@ class UserRegisterModel extends BaseModel{
       	$_SESSION['uniSmsSendCounter'] = 1;
       }
 	}
-
 }

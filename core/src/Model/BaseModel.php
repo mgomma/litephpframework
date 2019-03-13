@@ -6,15 +6,11 @@ use App\core\Model\BaseModelInterface;
 use App\core\DB;
 
 
-class BaseModel implements BaseModelInterface{
+class BaseModel extends DB implements BaseModelInterface{
 
-	private $db;
-	protected $driver;
 
-	function __Construct(){		
-		$this->db = new DB();
-
-		$this->driver = $this->db->getDriver();
+	function __Construct(){
+	  parent::__Construct();
 	}
 
 	public function getFields(){

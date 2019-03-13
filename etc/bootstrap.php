@@ -8,7 +8,7 @@ define ('TEST_DIR', 'test');
 define ('THEME_DIR', 'theme');
 define ('FRONT_THEME', 'main');
 
-define('MODULES_CLASS_DIRS', ['Controller', 'Model', 'Form']);
+define('MODULES_CLASS_DIRS', ['Controller', 'Model', 'Form', 'Drivers']);
 //define ('SUB_DIR', '/project');
 define ('BASE_URL', 'http://litephp.docker.localhost:7000');
 

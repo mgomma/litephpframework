@@ -1,6 +1,4 @@
-<?php 
-
-namespace App\core\Drivers;
+<?php
 
 class mysql{
 
@@ -8,23 +6,20 @@ class mysql{
 	private $query;
 
 	function __Construct($dbConfig){
+      $this->connection = new mysqli($dbConfig['host'], $dbConfig['user'], $dbConfig['password'], $dbConfig['name']);
 
-	  $this->connection = new mysqli($dbConfig['host'], $dbConfig['user'], $dbConfig['pass'], $dbConfig['database']);
 	  if ($this->connection->connect_error) {
 	 	die('Failed to connect to MySQL - ' . $this->connection->connect_error);
 	  }
+
 	  $this->connection->set_charset($dbConfig['charset']);
 	}
 
 	function __Destruct(){
-		return $this->connection->close();
-	}
-
-	public function execute(){
+	  return $this->connection->close();
 	}
 
 	public function insertQueryBuild($table, &$arr){
-
 	  $values = NULL;
 
 	  $counter = count($arr);
@@ -41,7 +36,6 @@ class mysql{
 	  }	
 
 	  $query = 'INSERT INTO '.$TABLE.' VALUES('.$values.')';
-
 	  if($this->query = $this->connection->prepare($query)){
 
 	  }else{

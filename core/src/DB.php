@@ -2,25 +2,20 @@
 
 namespace App\core;
 
+
 class DB{
 
-  private $driver;
+  public $db;
 
   function __Construct(){
+    include APP_DIR.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'env.php';
 
-  	include APP_DIR.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'env.php';		
-  	include APP_DIR.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Drivers'.DIRECTORY_SEPARATOR.$dbConfig['driver'].'.php';
-
-  	$this->driver = new $env['driver']($dbConfig['driver']);
-  }
-
-  public function getDriver(){
-  	return $this->driver;
+  	$this->db = new $GLOBALS['env']['database']['driver']($GLOBALS['env']['database']);
   }
 
   public function insert($table, &$arr){
-  	$this->driver->insertQueryBuild($table, $arr);
+  	$this->db->insertQueryBuild($table, $arr);
 	
-	return $query->driver->execute();
+	return $query->db->execute();
   }
 }
