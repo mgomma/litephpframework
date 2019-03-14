@@ -70,6 +70,10 @@ class UserRegisterController extends BaseFrontController{
 	private function returnRegisterForm($formState){
 	  $form = ['action' => '/user/register'];
 
+	  if(isset($_SESSION['uniSmsCode']) && (time() - $_SESSION['uniSmsSendTime'] < 60)){
+	    $form['sms_button']['attributes']['disabled'] = 'disabled';
+      }
+
 	  $this->data['form'] = $this->form->buildForm($form, $formState);
 	  return $this->view('registerForm.phtml');
 	}

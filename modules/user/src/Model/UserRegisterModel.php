@@ -13,7 +13,7 @@ class UserRegisterModel extends BaseModel{
 
 	const table = 'user';
 
-	const fields = ['first_name', 'last_name', 'email', 'phone_number'];
+	const fields = ['first_name', 'last_name', 'email', 'phone_number', 'phone_verified', 'status', 'created', 'changed'];
 
 	function __Construct(){
 	  parent::__Construct();
@@ -28,8 +28,14 @@ class UserRegisterModel extends BaseModel{
 	  return SELF::fields;
 	}
 
-	public function saveUser(&$arr){
-	  $this->db->insert(SELF::table, array_intersect($arr, SELF::fields));
+	public function saveUser(&$arr, $update = FALSE){
+	  $fields = array_intersect($arr, SELF::fields);
+
+	  if(!$update){
+	    $fields['created'] = time();
+        $fields['changed'] = NULL;
+      }
+	  $this->insert(SELF::table, $fields);
 	}
 
 	public function validate(&$arr){
@@ -38,6 +44,10 @@ class UserRegisterModel extends BaseModel{
 
 	  $this->state['email'] = $this->userRegisterValidate->validateEmail($arr['email']);
 	  $this->state['phone_number'] = $this->userRegisterValidate->validatePhoneNumber($arr['phone_number']);
+
+	  if(isset($_SESSION['uniSmsCode']) && isset($arr['sms_code'])){
+        $this->state['sms_code'] = $this->userRegisterValidate->validateSmsCode($arr['sms_code']);
+      }
 	}
 
 	public function getModelState(){

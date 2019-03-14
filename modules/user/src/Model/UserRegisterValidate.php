@@ -59,4 +59,13 @@ class UserRegisterValidate extends BaseValidate{
 	  return $errors;
 	}
 
+    public function validateSmsCode($value){
+      $errors = [];
+
+      if($value != $_SESSION['uniSmsCode']){
+        $errors []= 'Entered sms code not matched';
+
+      }
+    }
+
 }

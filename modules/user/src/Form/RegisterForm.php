@@ -62,7 +62,7 @@ class RegisterForm extends BaseForm{
                   'style' => 'display: none;',
                 ],
             ],
-          'verification_code' => [
+          'sms_code' => [
                 'type' => 'text',
                 'label' => 'Verification Code',
                 'description' => '',
