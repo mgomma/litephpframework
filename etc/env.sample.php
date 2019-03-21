@@ -8,6 +8,7 @@ $GLOBALS['env'] = [];
  * prod
  **/
 $GLOBALS['env']['mode'] = 'XXXX';
+$GLOBALS['env']['base_url'] = 'XXXXX';
 
 $GLOBALS['env']['database'] = [
     'host' => 'mariadb',
