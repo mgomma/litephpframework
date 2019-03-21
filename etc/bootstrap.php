@@ -11,11 +11,11 @@ define ('THEME_DIR', 'theme');
 define ('FRONT_THEME', 'main');
 
 define('MODULES_CLASS_DIRS', ['Controller', 'Model', 'Form', 'Drivers']);
-//define ('SUB_DIR', '/project');
-define ('BASE_URL', 'http://litephp.docker.localhost:7000');
-
+//define ('SUB_DIR', '/project')
 
 $envFilePath =  APP_DIR.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'env.php';
+define ('BASE_URL', $GLOBALS['env']['base_url']);
+
 if(file_exists($envFilePath)){
     include $envFilePath;
 }else{

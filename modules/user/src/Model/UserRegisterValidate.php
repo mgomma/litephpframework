@@ -50,7 +50,7 @@ class UserRegisterValidate extends BaseValidate{
 	  $errors = [];
 	  $length = strlen($value);
 
-      if(count($_SESSION['phone_number']) > 10){
+      if(isset($_SESSION['phone_number']) && count($_SESSION['phone_number']) > 10){
         $errors []= 'You have exceeded allowed tries for phone number';
       }
 
