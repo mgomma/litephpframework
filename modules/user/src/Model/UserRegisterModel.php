@@ -37,14 +37,13 @@ class UserRegisterModel extends BaseModel{
 	private function buildSaveArr(&$arr, $update = FALSE){
         foreach ($arr as $k => $v) {
 
+          if($key = 'created' || $key = 'changed'){
+              unset($arr[$k]);
+          }
           if (!in_array($k, SELF::fields)) {
             unset($arr[$k]);
 
           }
-        }
-
-        if(!$update){
-          $arr['created'] = time();
         }
     }
 
