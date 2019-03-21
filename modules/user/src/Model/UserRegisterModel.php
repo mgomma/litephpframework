@@ -29,14 +29,24 @@ class UserRegisterModel extends BaseModel{
 	}
 
 	public function saveUser(&$arr, $update = FALSE){
-	  $fields = array_intersect($arr, SELF::fields);
+	   $this->buildSaveArr($arr, $update = FALSE);
 
-	  if(!$update){
-	    $fields['created'] = time();
-        $fields['changed'] = NULL;
-      }
-	  $this->insert(SELF::table, $fields);
+      return $this->insert(SELF::table, $arr);
 	}
+
+	private function buildSaveArr(&$arr, $update = FALSE){
+        foreach ($arr as $k => $v) {
+
+          if (!in_array($k, SELF::fields)) {
+            unset($arr[$k]);
+
+          }
+        }
+
+        if(!$update){
+          $arr['created'] = time();
+        }
+    }
 
 	public function validate(&$arr){
 	  $this->state['first_name'] = $this->userRegisterValidate->validateName($arr['first_name']);
@@ -45,8 +55,8 @@ class UserRegisterModel extends BaseModel{
 	  $this->state['email'] = $this->userRegisterValidate->validateEmail($arr['email']);
 	  $this->state['phone_number'] = $this->userRegisterValidate->validatePhoneNumber($arr['phone_number']);
 
-	  if(isset($_SESSION['uniSmsCode']) && isset($arr['sms_code'])){
-        $this->state['sms_code'] = $this->userRegisterValidate->validateSmsCode($arr['sms_code']);
+	  if(isset($_SESSION['phone_number'][$arr['phone_number']]) && isset($arr['sms_code'])){
+        $this->state['sms_code'] = $this->userRegisterValidate->validateSmsCode($arr['sms_code'], $arr['phone_number']);
       }
 	}
 
@@ -61,21 +71,27 @@ class UserRegisterModel extends BaseModel{
 	public function sendCode($mobile){
 	  $code = $this->GenerateSmsCode($mobile);
 
-	  $arr = ['code' => $_SESSION['uniSmsCode'], 'Recipient' => $mobile];
-	  $this->smsModel->sendCode($arr);
+	  if($GLOBALS['env']['mode'] != 'prod'){
+         $arr = ['code' => $_SESSION['phone_number'][$mobile]['uniSmsCode'], 'Recipient' => $mobile];
+
+         if($this->smsModel->sendCode($arr)){
+           $_SESSION['phone_number'][$mobile]['uniSmsSendTime'] = time();
+         }
+      }else{
+        $_SESSION['phone_number'][$mobile]['uniSmsSendTime'] = time();
+      }
 	}
 
 	public function GenerateSmsCode($mobile){
 	  mt_srand($mobile);
 
-      $_SESSION['uniSmsCode'] = mt_rand(1000, 9999);
-      $_SESSION['uniSmsSendTime'] = time();
+      $_SESSION['phone_number'][$mobile]['uniSmsCode'] = mt_rand(1000, 9999);
 
-      if(isset($_SESSION['uniSmsSendCounter'])){
-        $_SESSION['uniSmsSendCounter'] += 1;
+      if(isset($_SESSION['phone_number'][$mobile]['uniSmsSendCounter'])){
+        $_SESSION['phone_number'][$mobile]['uniSmsSendCounter'] += 1;
 
       }else{
-      	$_SESSION['uniSmsSendCounter'] = 1;
+      	$_SESSION['phone_number'][$mobile]['uniSmsSendCounter'] = 1;
       }
 	}
 }

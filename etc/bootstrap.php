@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 define ('MODULES_DIR', 'modules');
 define ('ETC_DIR', 'etc');
 

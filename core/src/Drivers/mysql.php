@@ -20,27 +20,20 @@ class mysql{
 	}
 
 	public function insertQueryBuild($table, &$arr){
-	  $values = NULL;
 
-	  $counter = count($arr);
-	  $count = 0;
-	 
-	  foreach ($arr as $key => $value) {
-	  	++$start;
-	 
-	  	$values .= "`".$key."` = '".$value."'";
-	  	if($count != $counter){
+	  $values = implode('","', array_values($arr));
+      $columns = implode(',', array_keys($arr));
 
-	  	  $values .= ', ';
-	  	}
-	  }	
+	  $query = 'INSERT INTO '.$table.' ('.$columns.') VALUES ("'.$values.'")';
+	  try {
 
-	  $query = 'INSERT INTO '.$TABLE.' VALUES('.$values.')';
-	  if($this->query = $this->connection->prepare($query)){
+          $this->connection->prepare($query)->execute();
+          return $this->connection->insert_id;
+	  }catch(\Exception $e){
 
-	  }else{
-	  	die('Error prepare query check mysql syntax - ' . $this->query->error);
-	  }
+          //log the message.
+          return FALSE;
+      }
 	}
 
 	public function execute(){

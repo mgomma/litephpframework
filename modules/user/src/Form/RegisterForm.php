@@ -72,10 +72,25 @@ class RegisterForm extends BaseForm{
                     'max' => '4',
                 ]
             ],
+            'submit' => [
+                'type' => 'submit',
+                'value' => 'Register',
+            ],
 	    ],
 	  ];
 
 	  parent::buildForm($form, $formState);
+	  $mobile = isset($form['elements']['phone_number']['value']) ? $form['elements']['phone_number']['value'] : FALSE;
+
+      if($mobile  && isset($_SESSION['phone_number'][$mobile]['uniSmsCode'])){
+          $form['elements']['sms_button']['attributes']['disabled'] = 'disabled';
+
+          unset($form['elements']['sms_code']['attributes']['style']);
+
+           if($GLOBALS['env']['mode'] == 'local'){
+              $form['elements']['sms_code']['value'] = $_SESSION['phone_number'][$mobile]['uniSmsCode'];
+          }
+       }
 	  return $form;
 	}
 }

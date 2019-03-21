@@ -14,8 +14,6 @@ class DB{
   }
 
   public function insert($table, &$arr){
-  	$this->db->insertQueryBuild($table, $arr);
-	
-	return $query->db->execute();
+  	return $this->db->insertQueryBuild($table, $arr);
   }
 }

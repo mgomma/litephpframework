@@ -25,37 +25,49 @@ class UserRegisterController extends BaseFrontController{
 
 	  	$this->registerFormSubmit();
 	  }else{
+          $_SESSION['phone_number'] = [];
 
-	  	$this->returnRegisterForm([]);
+          $this->returnRegisterForm([]);
 	  }
 	}
 
 	private function registerFormSubmit(){
 	  $post = $this->request->post();
-        $this->submitUser($arr);
-        return;
+
 	  $this->model->validate($post);
-
 	  $state = $this->model->getModelState();
-	  if($this->model->hasErrors() || (!isset($_SESSION['mobile_number_validated']) && !$_SESSION['mobile_number_validated'])){
-	  	$formState = [];
 
+	  $mobile = $post['phone_number'];
+      $formState = [];
+
+	  if(!$this->model->hasErrors() && !isset($_SESSION['phone_number'][$mobile]['uniSmsCode'])){
+	    $this->model->sendCode($mobile);
+      }
+
+	  if($this->model->hasErrors() || !isset($_SESSION['phone_number'][$mobile]['verified'])){
 	  	foreach ($post as $key => $value) {
-	  	  $formState[$key]['value'] = $value;
 
+	  	  $formState[$key]['value'] = $value;
 	  	  if(isset($state[$key])){
+
 	  	    $formState[$key]['errors'] = $state[$key];
 	  	  }
 	  	}
 
-	  	$this->returnRegisterForm($formState);
-	  }else if(isset($_SESSION['mobile_number_validated']) && $_SESSION['mobile_number_validated']){
-	      $this->submitUser($arr);
+        $this->returnRegisterForm($formState);
+	  }
+
+	  if(isset($_SESSION['phone_number'][$mobile]['verified']) && $_SESSION['phone_number'][$mobile]['verified']){
+        $post['phone_verified'] = $_SESSION['phone_number'][$mobile]['verified'];
+
+	    return $this->submitUser($post);
       }
+
 	}
 
 	private function submitUser(&$arr){
 	    if($this->model->saveUser($arr)){
+            unset($_SESSION['phone_number']);
 
 	        $this->data['register_result']['message'] = 'You have registered Successfully !!';
             $this->data['register_result']['type'] = 'success';
@@ -69,12 +81,8 @@ class UserRegisterController extends BaseFrontController{
 
 	private function returnRegisterForm($formState){
 	  $form = ['action' => '/user/register'];
-
-	  if(isset($_SESSION['uniSmsCode']) && (time() - $_SESSION['uniSmsSendTime'] < 60)){
-	    $form['sms_button']['attributes']['disabled'] = 'disabled';
-      }
-
 	  $this->data['form'] = $this->form->buildForm($form, $formState);
-	  return $this->view('registerForm.phtml');
+
+      return $this->view('registerForm.phtml');
 	}
 }

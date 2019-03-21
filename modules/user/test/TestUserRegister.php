@@ -22,32 +22,35 @@ class TestUserRegister extends TestBase{
   	echo '<p style="color:blue"> Start test user register </p>';
 
   	foreach ($fields as $field) {
-  	  $otherCases = $this->testCasesArr;
+      $otherCases = $this->testCasesArr;
 
-  	  unset($otherCases[$field]);
-  	  $arr = [];
+      unset($otherCases[$field]);
+      $arr = [];
 
-  	  foreach($this->testCasesArr[$field]['success'] as $v){
-  	  	$arr[$field] = $v;
+        if (isset($this->testCasesArr[$field])) {
 
-  	  	foreach ($otherCases as $kk => $vv) {
-  	  	  $arr[$kk] = reset($vv['success']);
-  	  	}
+            foreach ($this->testCasesArr[$field]['success'] as $v) {
+                $arr[$field] = $v;
 
-  	    $res = $this->model->validate($arr);
-        $this->assert($field, $v);
-  	  }
+                foreach ($otherCases as $kk => $vv) {
+                    $arr[$kk] = reset($vv['success']);
+                }
 
-  	  foreach($this->testCasesArr[$field]['fail'] as $v){
-  	  	$arr[$field] = $v;
+                $res = $this->model->validate($arr);
+                $this->assert($field, $v);
+            }
 
-  	  	foreach ($otherCases as $kk => $vv) {
-  	  	  $arr[$kk] = reset($vv['success']);
-  	  	}
-  	    $res = $this->model->validate($arr);
-  	    $this->assert($field, $v);
-  	  }
-  	}
+            foreach ($this->testCasesArr[$field]['fail'] as $v) {
+                $arr[$field] = $v;
+
+                foreach ($otherCases as $kk => $vv) {
+                    $arr[$kk] = reset($vv['success']);
+                }
+                $res = $this->model->validate($arr);
+                $this->assert($field, $v);
+            }
+        }
+      }
 
   	$this->testCodeLength();
   }

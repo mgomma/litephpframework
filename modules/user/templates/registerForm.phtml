@@ -12,7 +12,10 @@
 
                 <?php foreach ($data['form']['elements'] as $key => $value) { ?>
 
-                        <div class="form-group <?php echo str_replace('_', '-', $key); ?>">
+                        <div <?php if(isset($value['attributes']['style'])){ ?>
+                             style=" <?php echo $value['attributes']['style'];?>"
+
+                        <?php } ?> class="form-group <?php echo str_replace('_', '-', $key); ?>">
                             <?php if(isset($value['label'])){ ?>
 
                                 <label class="control-label col-sm-2"><?php echo $value['label'];?></label>
@@ -44,8 +47,6 @@
                         </div>
 
                     <?php } ?>
-                <input class="btn btn-default" type="submit" value="Register">
-
             </form>
             <?php } ?>
         </div>

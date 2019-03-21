@@ -49,6 +49,11 @@ class UserRegisterValidate extends BaseValidate{
 	public function validatePhoneNumber($value){
 	  $errors = [];
 	  $length = strlen($value);
+
+      if(count($_SESSION['phone_number']) > 10){
+        $errors []= 'You have exceeded allowed tries for phone number';
+      }
+
 	  if($length != 12){
 
 	  	$errors []= 'Must be 12 number only';
@@ -59,13 +64,16 @@ class UserRegisterValidate extends BaseValidate{
 	  return $errors;
 	}
 
-    public function validateSmsCode($value){
+    public function validateSmsCode($value, $mobile){
       $errors = [];
 
-      if($value != $_SESSION['uniSmsCode']){
-        $errors []= 'Entered sms code not matched';
+      if($value != $_SESSION['phone_number'][$mobile]['uniSmsCode']){
+        $errors []= 'Entered code not matched the sent to that mobile number '.$mobile;
 
+      }else{
+        $_SESSION['phone_number'][$mobile]['verified'] = TRUE;
       }
+      return $errors;
     }
 
 }
