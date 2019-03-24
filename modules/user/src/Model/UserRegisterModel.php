@@ -13,7 +13,7 @@ class UserRegisterModel extends BaseModel{
 
 	const table = 'user';
 
-	const fields = ['first_name', 'last_name', 'email', 'phone_number', 'phone_verified', 'status', 'created', 'changed'];
+	const fields = ['first_name', 'last_name', 'email', 'phone_number', 'phone_verified', 'status'];
 
 	function __Construct(){
 	  parent::__Construct();
@@ -36,10 +36,7 @@ class UserRegisterModel extends BaseModel{
 
 	private function buildSaveArr(&$arr, $update = FALSE){
         foreach ($arr as $k => $v) {
-
-          if($key = 'created' || $key = 'changed'){
-              unset($arr[$k]);
-          }
+            
           if (!in_array($k, SELF::fields)) {
             unset($arr[$k]);
 
